@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About - Smart Home Energy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;700&display=swap');
+
+    :root {
+      --primary: #0072ff;
+      --secondary: #00c6ff;
+      --dark: #0a1929;
+      --light: #f0f8ff;
+      --accent: #ff6b6b;
+    }
+    
+    body { 
+      font-family: 'Quicksand', sans-serif; 
+      background-color: #f8f9fa; 
+      scroll-behavior: smooth;
+      color: #333;
+    }
+
+    /* Navbar */
+    .navbar {
+      padding: 15px 0;
+      transition: all 0.3s ease;
+    }
+    .navbar-scrolled {
+      background: rgba(10, 25, 41, 0.95) !important;
+      padding: 10px 0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      color: white; 
+      padding: 140px 0 100px; 
+      text-align: center; 
+      position: relative; 
+      overflow: hidden;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      background: linear-gradient(45deg, var(--secondary), var(--primary));
+      background-clip: text; 
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; 
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    .hero p { 
+      font-size: 1.3rem; 
+      margin-bottom: 30px; 
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero .btn { 
+      transition: all 0.3s ease; 
+      border-radius: 50px;
+      padding: 12px 30px;
+      font-weight: 600;
+    }
+    .hero .btn:hover { 
+      transform: translateY(-3px); 
+      box-shadow: 0 10px 20px rgba(0,114,255,0.3); 
+    }
+
+    /* Particle canvas for hero background */
+    #heroParticles { 
+      position:absolute; 
+      top:0; 
+      left:0; 
+      width:100%; 
+      height:100%; 
+      pointer-events:none; 
+      z-index:0; 
+    }
+
+    /* Stats Section */
+    .stats-section {
+      background: white;
+      padding: 80px 0;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+    }
+    .stat-item {
+      text-align: center;
+      padding: 20px;
+    }
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      background-clip: text; 
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .stat-text {
+      font-size: 1.1rem;
+      color: #666;
+    }
+
+    /* CEO Quote Section */
+    .ceo-quote {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white; 
+      text-align: center; 
+      padding: 120px 20px; 
+      position: relative; 
+      overflow: hidden;
+    }
+    .ceo-quote h2 {
+      font-size: 2.3rem; 
+      max-width: 800px; 
+      margin: 0 auto 30px; 
+      font-weight: 500; 
+      line-height: 1.6;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .ceo-quote p { 
+      font-family: 'Pacifico', cursive; 
+      font-size: 1.7rem; 
+      color: #e0f7fa;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0;
+    }
+    .ceo-quote .title {
+      display: block;
+      margin-top: 15px;
+      font-size: 1.1rem;
+      color: #90caf9;
+      font-style: italic;
+    }
+
+    /* Moving tech lines */
+    .ceo-quote .tech-lines { 
+      position: absolute; 
+      top:0; 
+      left:0; 
+      width:100%; 
+      height:100%; 
+      pointer-events:none; 
+      overflow:hidden; 
+      z-index: 1;
+    }
+    .ceo-quote .tech-lines div { 
+      position:absolute; 
+      width:200%; 
+      height:1px; 
+      background: linear-gradient(90deg, transparent, rgba(0, 198, 255, 0.4), transparent);
+      animation: slide 10s linear infinite; 
+    }
+    .ceo-quote .tech-lines div:nth-child(2) { top:50%; animation-duration: 15s; }
+    .ceo-quote .tech-lines div:nth-child(3) { top:80%; animation-duration: 12s; }
+    @keyframes slide { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* Timeline Section */
+    .timeline-section {
+      padding: 100px 0;
+      background: var(--light);
+    }
+    .timeline {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -3px;
+      border-radius: 10px;
+    }
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      width: 50%;
+      box-sizing: border-box;
+    }
+    .timeline-item:nth-child(odd) {
+      left: 0;
+    }
+    .timeline-item:nth-child(even) {
+      left: 50%;
+    }
+    .timeline-content {
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    .timeline-content:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    .timeline-date {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background: var(--primary);
+      border: 4px solid white;
+      border-radius: 50%;
+      top: 20px;
+      z-index: 1;
+      box-shadow: 0 0 0 4px var(--primary);
+    }
+    .timeline-item:nth-child(odd)::after {
+      right: -13px;
+    }
+    .timeline-item:nth-child(even)::after {
+      left: -13px;
+    }
+
+    /* Team Section */
+    .team-section {
+      padding: 100px 0;
+      background: white;
+    }
+    .team-member {
+      text-align: center;
+      margin-bottom: 30px;
+      transition: all 0.3s ease;
+    }
+    .team-member:hover {
+      transform: translateY(-10px);
+    }
+    .team-img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 20px;
+      border: 5px solid transparent;
+      background: linear-gradient(white, white) padding-box,
+                  linear-gradient(45deg, var(--primary), var(--secondary)) border-box;
+    }
+    .team-name {
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: var(--dark);
+    }
+    .team-role {
+      color: var(--primary);
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    /* Contact Section */
+    .contact-section { 
+      background: #f0f8ff; 
+      padding: 100px 20px; 
+      position: relative; 
+      text-align: center; 
+    }
+    .contact-section h2 {
+      background: linear-gradient(45deg, var(--primary), var(--secondary)); 
+      background-clip: text;
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+      color: transparent;
+      font-size: 2.5rem; 
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    .contact-form {
+      background: white; 
+      padding: 40px; 
+      border-radius: 15px; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      max-width: 600px; 
+      margin: auto; 
+      transition: transform 0.3s ease;
+    }
+    .contact-form:hover { 
+      transform: translateY(-5px); 
+    }
+    .contact-form input, .contact-form textarea {
+      margin-bottom: 20px; 
+      border-radius: 8px; 
+      padding: 15px; 
+      border: 1px solid #ddd; 
+      transition: all 0.3s ease;
+    }
+    .contact-form input:focus, .contact-form textarea:focus {
+      border-color: var(--primary); 
+      box-shadow: 0 0 15px rgba(0,114,255,0.2); 
+      outline: none;
+    }
+    .contact-form button { 
+      transition: all 0.3s ease; 
+      border-radius: 50px;
+      padding: 12px 30px;
+      font-weight: 600;
+    }
+    .contact-form button:hover { 
+      transform: translateY(-3px); 
+      box-shadow: 0 10px 20px rgba(0,123,255,0.3); 
+    }
+    .success-message { 
+      display: none; 
+      margin-top: 20px; 
+      border-radius: 10px;
+    }
+
+    /* Footer */
+    footer { 
+      background: #111; 
+      color: white; 
+      text-align: center; 
+      padding: 40px 20px; 
+    }
+    footer a { 
+      color: white; 
+      margin: 0 12px; 
+      text-decoration: none; 
+      transition: all 0.3s ease; 
+      font-size: 1.2rem;
+    }
+    footer a:hover { 
+      color: var(--secondary); 
+      transform: translateY(-3px);
+    }
+    footer .btn-outline-info { 
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+    footer .btn-outline-info:hover { 
+      background: var(--primary); 
+      color: white; 
+      box-shadow: 0 5px 15px rgba(0,114,255,0.4); 
+      transform: translateY(-3px);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    .delay-1 {
+      animation-delay: 0.2s;
+    }
+    .delay-2 {
+      animation-delay: 0.4s;
+    }
+    .delay-3 {
+      animation-delay: 0.6s;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+      .timeline::after {
+        left: 31px;
+      }
+      .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+      .timeline-item:nth-child(even) {
+        left: 0;
+      }
+      .timeline-item::after {
+        left: 18px;
+      }
+      .ceo-quote h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">
+        <i class="fas fa-bolt me-2"></i>Smart Home Energy
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+          <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <canvas id="heroParticles"></canvas>
+    <div class="container" style="position:relative; z-index:1;">
+      <h1 class="fade-in-up">About Smart Home Energy</h1>
+      <p class="lead fade-in-up delay-1">We're revolutionizing how homes consume energy through intelligent automation and sustainable solutions.</p>
+      <a href="#contact" class="btn btn-primary btn-lg fade-in-up delay-2"><i class="fas fa-envelope me-2"></i> Contact Us</a>
+    </div>
+  </header>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-6">
+          <div class="stat-item fade-in-up">
+            <div class="stat-number" id="stat1">0</div>
+            <div class="stat-text">Homes Automated</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-item fade-in-up delay-1">
+            <div class="stat-number" id="stat2">0</div>
+            <div class="stat-text">Energy Saved</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-item fade-in-up delay-2">
+            <div class="stat-number" id="stat3">0</div>
+            <div class="stat-text">Happy Clients</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-item fade-in-up delay-3">
+            <div class="stat-number" id="stat4">0</div>
+            <div class="stat-text">Team Members</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CEO Quote Section -->
+  <section class="ceo-quote">
+    <div class="container position-relative">
+      <h2 class="fade-in-up">"Technology changes life, and I want every household to experience the convenience that technology brings."</h2>
+      <p class="fade-in-up delay-1">Zhigang Qiao<span class="title">CEO & Founder</span></p>
+    </div>
+    <!-- Tech lines for visual effect -->
+    <div class="tech-lines">
+      <div></div><div></div><div></div>
+    </div>
+  </section>
+
+  <!-- Timeline Section -->
+  <section class="timeline-section">
+    <div class="container">
+      <h2 class="text-center mb-5">Our Journey</h2>
+      <div class="timeline">
+        <div class="timeline-item fade-in-up">
+          <div class="timeline-content">
+            <div class="timeline-date">2018</div>
+            <h3>Company Founded</h3>
+            <p>Started with a vision to make home energy management smarter and more efficient.</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-in-up delay-1">
+          <div class="timeline-content">
+            <div class="timeline-date">2019</div>
+            <h3>First Product Launch</h3>
+            <p>Introduced our flagship smart thermostat with AI learning capabilities.</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-in-up delay-2">
+          <div class="timeline-content">
+            <div class="timeline-date">2020</div>
+            <h3>Series A Funding</h3>
+            <p>Secured $5M in funding to expand our product line and research efforts.</p>
+          </div>
+        </div>
+        <div class="timeline-item fade-in-up delay-3">
+          <div class="timeline-content">
+            <div class="timeline-date">2022</div>
+            <h3>International Expansion</h3>
+            <p>Launched our products in European markets with great success.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="team-section">
+    <div class="container">
+      <h2 class="text-center mb-5">Meet Our Team</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="team-member fade-in-up">
+            <img src="images/Zhigang.jpg" alt="Team Member" class="team-img">
+            <h4 class="team-name">Zhigang Qiao</h4>
+            <div class="team-role">CEO & Founder</div>
+            <p>Visionary leader with 15+ years in smart home technology.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="team-member fade-in-up delay-1">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Team Member" class="team-img">
+            <h4 class="team-name">Sarah Johnson</h4>
+            <div class="team-role">CTO</div>
+            <p>Expert in IoT and energy management systems.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="team-member fade-in-up delay-2">
+            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Team Member" class="team-img">
+            <h4 class="team-name">Michael Chen</h4>
+            <div class="team-role">Lead Engineer</div>
+            <p>Specializes in AI algorithms for energy optimization.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section" id="contact">
+    <div class="container">
+      <h2 class="fade-in-up">Get in Touch</h2>
+      <p class="lead mb-5 fade-in-up delay-1">Have questions or want to reach out? Fill out the form below:</p>
+      <form class="contact-form fade-in-up delay-2" id="contactForm">
+        <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+        <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+        <input type="tel" class="form-control" id="phone" placeholder="Your Phone Number">
+        <textarea class="form-control" id="message" rows="4" placeholder="Your Message" required></textarea>
+        <button type="submit" class="btn btn-primary w-100"><i class="fas fa-paper-plane me-2"></i> Send Message</button>
+        <div class="alert alert-success success-message mt-3">Thank you! Your message has been sent successfully.</div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Smart Home Energy | All Rights Reserved</p>
+    <div class="mt-3">
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="index.html" class="btn btn-outline-info ms-2">Return Home</a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('navbar-scrolled');
+      } else {
+        navbar.classList.remove('navbar-scrolled');
+      }
+    });
+
+    // Contact form submission
+    document.getElementById('contactForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if(name && email && message){
+        const alertBox = document.querySelector('.success-message');
+        alertBox.style.display = 'block';
+        setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
+        this.reset();
+      } else { 
+        alert('Please fill in all required fields.'); 
+      }
+    });
+
+    // Particle Animation for Hero
+    const canvas = document.getElementById('heroParticles');
+    const ctx = canvas.getContext('2d');
+    let particlesArray;
+    
+    function initParticles(){
+      canvas.width = window.innerWidth;
+      canvas.height = document.querySelector('.hero').offsetHeight;
+      particlesArray = [];
+      for(let i=0; i<150; i++){
+        particlesArray.push({
+          x: Math.random()*canvas.width,
+          y: Math.random()*canvas.height,
+          size: Math.random()*2+1,
+          speedX: (Math.random()-0.5)*0.5,
+          speedY: (Math.random()-0.5)*0.5
+        });
+      }
+    }
+    
+    function animateParticles(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particlesArray.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,0.7)';
+        ctx.fill();
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if(p.x<0||p.x>canvas.width) p.speedX*=-1;
+        if(p.y<0||p.y>canvas.height) p.speedY*=-1;
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    
+    window.addEventListener('resize', function() {
+      initParticles();
+    });
+    
+    initParticles();
+    animateParticles();
+
+    // Stats counter animation
+    function animateValue(id, start, end, duration) {
+      const obj = document.getElementById(id);
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        obj.innerHTML = Math.floor(progress * (end - start) + start);
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+    
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Animate stats when they come into view
+          if (entry.target.classList.contains('stats-section')) {
+            animateValue('stat1', 0, 12500, 2000);
+            animateValue('stat2', 0, 35, 2000);
+            animateValue('stat3', 0, 2400, 2000);
+            animateValue('stat4', 0, 24, 2000);
+          }
+          // Add visible class for other animations
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+    
+    // Observe sections for animation
+    document.querySelectorAll('section').forEach(section => {
+      observer.observe(section);
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
